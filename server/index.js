@@ -5,6 +5,7 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const config = require('./config');
 
 app.use(express.json());
 app.use(cors({
@@ -27,12 +28,7 @@ app.use(session({
     */
 }))
 
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'origin_test'
-})
+const db = mysql.createPool(config)
 
 app.post('/api/login', (req,res) => {
     const user = req.body.user;
