@@ -1,0 +1,19 @@
+.form-login {
+    margin-top: 150px;
+    width: 400px;
+}
+
+.form-group {
+    margin-top:20px;
+}
+
+.login {
+    align-items: center;
+    text-align: center;
+}
+
+.error{
+    font-size: 16;
+    font-weight: bold;
+    color: red;
+}

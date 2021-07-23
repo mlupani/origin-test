@@ -1,0 +1,44 @@
+.header {
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 600px;
+    align-items: center;
+    height: 50px;
+    align-content: center;
+    margin-bottom: 50px;
+}
+
+.simbolo {
+    width:500;
+}
+
+.containerAutocomplete{
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.form-control {
+    width:300px;
+}
+
+.table-actions {
+    width:600px
+}
+
+.contentList{
+    display: flex;
+    flex-direction: column;
+}
