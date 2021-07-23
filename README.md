@@ -1,8 +1,14 @@
 # origin-test
 Test publico de origin
 
+Instalaciones:
+git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+node: https://nodejs.org/es/download/
+
 Clonar el repositorio de git:
 git clone https://github.com/mlupani/origin-test.git
+
+Utilizar el archivo Dump20210722.sql en cualquier servidor con mysql instalado e importar, sino puede usarse localmente instalando MySQL.
 
 Instalar Mysql desde https://dev.mysql.com/downloads/installer/
 Seguir todos los pasos de la instalacion
@@ -28,3 +34,5 @@ pass: miguel
 
 user: jose
 pass: jose
+
+las contraseñas estan encriptadas en md5 en la DB
