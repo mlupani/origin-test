@@ -24,9 +24,9 @@ const useActionsDetails = (optionSelected: number = 1, intervalo: number = 1, ac
     }, [timeInterval])
 
     const graficar = async () => {
-        const time = setInterval(() => loadValues(),intervalo * 60000)
+        const time = setInterval(() => loadValues(), intervalo * 60000)
         setTimeInterval(time)
-        clearInterval(time)
+        //clearInterval(time)
     }
 
     const loadValues = async () => {
