@@ -8,6 +8,10 @@ node: https://nodejs.org/es/download/
 Clonar el repositorio de git:
 git clone https://github.com/mlupani/origin-test.git
 
+Dirigirse a la carpeta client y ejecutar el comando:
+npm i
+Para instalar todas las dependencias.
+
 Utilizar el archivo Dump20210722.sql en cualquier servidor con mysql instalado e importar, sino puede usarse localmente instalando MySQL.
 
 Instalar Mysql desde https://dev.mysql.com/downloads/installer/
