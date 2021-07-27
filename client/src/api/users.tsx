@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const users = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: 'https://origin-test-miguel.herokuapp.com/api',
     withCredentials: true,
 })
 

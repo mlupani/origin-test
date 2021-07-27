@@ -1,8 +1,8 @@
 const config = {
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'origin_test'
+    host: 'us-cdbr-east-04.cleardb.com',
+    user: 'b0f68051824e0e',
+    password: '302e5f8b ',
+    database: 'heroku_3f382ff65850d4f'
 }
 
 
