@@ -10,6 +10,8 @@ const useAuth = () => {
     const getUser = async () => {
 
         users.get<userStateAPI>('/checkLogin').then(res => {
+            console.log(res);
+            return false;
             setIsLogged(res.data.isLogged)
             setUser(res.data.user)
         }).catch(err => {

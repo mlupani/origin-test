@@ -1,31 +1,35 @@
 const express = require('express');
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+//var session = require('cookie-session');
 const app = express();
 const cors = require('cors');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const config = require('./config');
 
-app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000','https://origin-test.vercel.app'],
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
+    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin",
 }));
-app.use(cookieParser());
+
+
+app.use(express.json());
+
 app.use(bodyParser.urlencoded({extended: true}));
 
+const sessionStore = new MySQLStore(config);
+
+app.use(cookieParser());
+
 app.use(session({
-    key: 'userID',
+    store: sessionStore,
     secret: 'test',
-    resave: true,
-    saveUninitialized: true,
-    /*
-    cookie: {
-        expires: 60 * 60 * 24
-    }
-    */
+    resave: false,
+    saveUninitialized: false,
 }))
 
 const db = mysql.createPool(config)
@@ -36,11 +40,14 @@ app.post('/api/login', (req,res) => {
     const sql = "SELECT * FROM users WHERE login = '"+user+"' and password = md5('"+pass+"') ";
     db.query(sql, (err, result) => {
         req.session.user = result[0];
-        res.send(result[0]);
+        req.session.pruebita = 'hola';
+        res.send(req.session.user);
     });
 })
 
 app.get('/api/checkLogin', (req,res) => {
+    res.send(req.session);
+    return false;
     if(req.session.user){
         res.send({isLogged: true, user: req.session.user});
     }
@@ -49,13 +56,19 @@ app.get('/api/checkLogin', (req,res) => {
     }
 })
 
-app.get('/api/logout', (req,res) => {
-    req.session.destroy(err => {
-        //res.redirect('/');
-    });
+app.get('/', (req,res) => {
+    res.send('Welcome!');
 })
 
-app.get('/api/getActionsUser', (req,res) => {
+/*
+app.get('/api/logout', (req,res) => {
+    if(req.session.user){
+        req.session.destroy();
+    }
+})
+*/
+
+app.get('/api/getActionsUser', async (req,res) => {
     const user = req.query.user;
     const sql = "SELECT * FROM actions_users WHERE id_user = '"+user+"' ";
     db.query(sql, (err, result) => res.send(result) );
@@ -76,6 +89,6 @@ app.delete('/api/delete/:id', (req,res) => {
     db.query(sql, (err, result) => res.send(result) );
 })
 
-app.listen(3001, () => {
-    console.log('corriendo server en puerto 3001..')
+app.listen(process.env.PORT || 3001, () => {
+    console.log('corriendo server...')
 })
