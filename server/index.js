@@ -9,30 +9,46 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config');
 
+var optionsStore = {
+	host: 'us-cdbr-east-04.cleardb.com',
+    user: 'b0f68051824e0e',
+    password: '302e5f8b',
+    database: 'heroku_3f382ff65850d4f',
+	database: 'sessions'
+};
+
 app.use(cors({
     origin: ['http://localhost:3000','https://origin-test.vercel.app'],
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin",
+    sameSite: 'none',
+    secure: true,
 }));
 
-
 app.use(express.json());
-
+app.set('trust proxy', 1)
 app.use(bodyParser.urlencoded({extended: true}));
 
-const sessionStore = new MySQLStore(config);
-
 app.use(cookieParser());
+
+const db = mysql.createPool(config)
+var sessionStore = new MySQLStore(optionsStore, db);
 
 app.use(session({
     store: sessionStore,
     secret: 'test',
     resave: false,
     saveUninitialized: false,
+    sameSite: 'none',
+    secure: true,
+    httpOnly: true,
+    cookie: {
+        sameSite: 'none',
+        secure: true,
+        httpOnly: true,
+    }
 }))
-
-const db = mysql.createPool(config)
 
 app.post('/api/login', (req,res) => {
     const user = req.body.user;
@@ -46,8 +62,7 @@ app.post('/api/login', (req,res) => {
 })
 
 app.get('/api/checkLogin', (req,res) => {
-    res.send(req.session);
-    return false;
+    
     if(req.session.user){
         res.send({isLogged: true, user: req.session.user});
     }
@@ -57,16 +72,15 @@ app.get('/api/checkLogin', (req,res) => {
 })
 
 app.get('/', (req,res) => {
-    res.send('Welcome!');
+    res.send('Welcome! '+req.session.pruebita);
 })
 
-/*
+
 app.get('/api/logout', (req,res) => {
     if(req.session.user){
         req.session.destroy();
     }
 })
-*/
 
 app.get('/api/getActionsUser', async (req,res) => {
     const user = req.query.user;

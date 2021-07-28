@@ -35,11 +35,11 @@ const Login = () => {
         users.get('/logout').then((result) => {}).catch((err) => {console.log(err);});
     }
 
-    /*
+    
     useEffect(() => {
         logout();
     }, [])
-*/
+
     return (
         <div className="container form-login">
             <form>
